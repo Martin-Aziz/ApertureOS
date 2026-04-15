@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+
+# Node / frontend
+node_modules/
+.npm/
+.pnpm-store/
+frontend/.svelte-kit/
+frontend/build/
+frontend/dist/
+frontend/coverage/
+common/dist/
+
+# Rust / backend
+backend/target/
+wasm/target/
+
+# Python / AI service
+.venv/
+ai-service/.venv/
+ai-service/.pytest_cache/
+ai-service/.mypy_cache/
+ai-service/__pycache__/
+*.pyc
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs and reports
+*.log
+coverage/
+reports/
+
+# Editors
+.vscode/
+.idea/

@@ -1,0 +1,16 @@
+{
+  "name": "apertureos",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PixelForge monorepo scaffold for browser-first image editing.",
+  "packageManager": "pnpm@9.12.2",
+  "scripts": {
+    "dev:frontend": "pnpm --filter pixelforge-frontend dev",
+    "dev:backend": "cargo run --manifest-path backend/Cargo.toml",
+    "dev:ai": "uvicorn main:app --app-dir ai-service/src --host 0.0.0.0 --port 8001 --reload",
+    "typecheck": "pnpm --filter @pixelforge/common typecheck && pnpm --filter pixelforge-frontend typecheck",
+    "lint": "pnpm --filter @pixelforge/common lint && pnpm --filter pixelforge-frontend lint && cargo fmt --manifest-path backend/Cargo.toml --all -- --check && cargo clippy --manifest-path backend/Cargo.toml --all-targets -- -D warnings",
+    "test": "pnpm --filter @pixelforge/common test && pnpm --filter pixelforge-frontend test && cargo test --manifest-path backend/Cargo.toml && ./scripts/run-ai-tests.sh",
+    "build": "pnpm --filter @pixelforge/common build && pnpm --filter pixelforge-frontend build && cargo build --manifest-path backend/Cargo.toml --release"
+  }
+}

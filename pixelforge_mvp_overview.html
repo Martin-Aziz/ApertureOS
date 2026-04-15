@@ -1,0 +1,184 @@
+
+<style>
+:root { --c1:#1A73E8; --c2:#0D47A1; --c3:#E8F0FE; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.wrap { padding: 1.5rem 0; }
+.hero { text-align: center; margin-bottom: 2rem; }
+.hero h1 { font-size: 28px; font-weight: 500; color: var(--color-text-primary); letter-spacing: -0.5px; }
+.hero p { font-size: 14px; color: var(--color-text-secondary); margin-top: 6px; }
+.badge { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; margin-bottom: 12px; background: var(--color-background-info); color: var(--color-text-info); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; justify-content: center; }
+.tab { padding: 6px 14px; font-size: 13px; border-radius: 20px; cursor: pointer; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); background: transparent; transition: all .15s; }
+.tab.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: transparent; }
+.panel { display: none; }
+.panel.active { display: block; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+.card-icon { font-size: 20px; margin-bottom: 8px; }
+.card h3 { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.card p { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin: 2px; }
+.pill-green { background: var(--color-background-success); color: var(--color-text-success); }
+.pill-amber { background: var(--color-background-warning); color: var(--color-text-warning); }
+.pill-red { background: var(--color-background-danger); color: var(--color-text-danger); }
+.pill-blue { background: var(--color-background-info); color: var(--color-text-info); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 10px; font-weight: 500; font-size: 12px; color: var(--color-text-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+td { padding: 8px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+.arch-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.arch-box { flex: 1; min-width: 120px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px; }
+.arch-box .label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.arch-box .val { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before { content:''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px; background: var(--color-border-secondary); }
+.titem { position: relative; margin-bottom: 1.25rem; }
+.titem::before { content:''; position: absolute; left: -17px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-text-primary); }
+.titem h4 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.titem p { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; line-height: 1.5; }
+.week-tag { font-size: 11px; color: var(--color-text-secondary); background: var(--color-background-secondary); padding: 1px 6px; border-radius: 8px; margin-right: 6px; }
+.risk-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.risk-row:last-child { border-bottom: none; }
+.risk-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.dot-red { background: #E24B4A; }
+.dot-amber { background: #EF9F27; }
+.dot-green { background: #639922; }
+</style>
+<div class="wrap">
+  <div class="hero">
+    <div class="badge">Open Source · Free Forever · Community-Built</div>
+    <h1>PixelForge — Advanced MVP Spec</h1>
+    <p>The open-source Photoshop successor. Browser-first. AI-native. No subscription.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show('summary')">Summary</button>
+    <button class="tab" onclick="show('features')">Features</button>
+    <button class="tab" onclick="show('stack')">Tech Stack</button>
+    <button class="tab" onclick="show('arch')">Architecture</button>
+    <button class="tab" onclick="show('timeline')">Delivery</button>
+    <button class="tab" onclick="show('risks')">Risks</button>
+  </div>
+
+  <div id="summary" class="panel active">
+    <div class="grid">
+      <div class="card"><div class="card-icon">🎯</div><h3>Problem</h3><p>Adobe charges $55/mo for Photoshop. GIMP is powerful but arcane. Designers need a modern, free, browser-native alternative.</p></div>
+      <div class="card"><div class="card-icon">👥</div><h3>Target users</h3><p>Freelancers, indie devs, students, NGOs, small studios — anyone priced out of or frustrated by Adobe's model.</p></div>
+      <div class="card"><div class="card-icon">💡</div><h3>Differentiator</h3><p>AI-powered tools built-in (background removal, generative fill, upscaling). Browser-first, real-time collaboration. 100% open source.</p></div>
+      <div class="card"><div class="card-icon">📐</div><h3>MVP scope</h3><p>Web canvas editor, layers, selection tools, color grading, PSD import/export, PNG/JPG export. Single-user only.</p></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px;font-size:14px">MVP vs Out of Scope</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="pill pill-green">Canvas editor</span>
+        <span class="pill pill-green">Layers panel</span>
+        <span class="pill pill-green">Selection tools</span>
+        <span class="pill pill-green">Color grading</span>
+        <span class="pill pill-green">PSD import</span>
+        <span class="pill pill-green">PNG/JPG export</span>
+        <span class="pill pill-green">AI background removal</span>
+        <span class="pill pill-green">Adjustment layers</span>
+        <span class="pill pill-amber">Generative fill (V1)</span>
+        <span class="pill pill-amber">Real-time collab (V1)</span>
+        <span class="pill pill-amber">Video timeline (V1)</span>
+        <span class="pill pill-red">3D rendering (V2+)</span>
+        <span class="pill pill-red">Mobile app (V2+)</span>
+        <span class="pill pill-red">Plugin marketplace (V2+)</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="features" class="panel">
+    <table>
+      <thead><tr><th>Feature</th><th>MVP</th><th>V1</th><th>V2</th></tr></thead>
+      <tbody>
+        <tr><td>Canvas engine (WebGL2)</td><td><span class="pill pill-green">✓</span></td><td><span class="pill pill-green">✓</span></td><td><span class="pill pill-green">✓</span></td></tr>
+        <tr><td>Layers (raster, group, adjustment)</td><td><span class="pill pill-green">Raster + group</span></td><td><span class="pill pill-green">+ Adjustment</span></td><td><span class="pill pill-green">+ Smart objects</span></td></tr>
+        <tr><td>Selection tools (rect, lasso, magic wand, quick select)</td><td><span class="pill pill-green">Rect + lasso</span></td><td><span class="pill pill-green">+ Magic wand</span></td><td><span class="pill pill-green">+ AI quick select</span></td></tr>
+        <tr><td>Paint / brush engine</td><td><span class="pill pill-green">Basic hardness/size</span></td><td><span class="pill pill-green">Pressure sensitivity</span></td><td><span class="pill pill-green">Custom brush packs</span></td></tr>
+        <tr><td>Text tool</td><td><span class="pill pill-green">Basic</span></td><td><span class="pill pill-green">OpenType support</span></td><td><span class="pill pill-green">Warp, path text</span></td></tr>
+        <tr><td>Color grading (curves, levels, HSL)</td><td><span class="pill pill-green">Levels + Hue/Sat</span></td><td><span class="pill pill-green">+ Curves</span></td><td><span class="pill pill-green">+ LUT import</span></td></tr>
+        <tr><td>Filters (blur, sharpen, noise)</td><td><span class="pill pill-green">Gaussian blur</span></td><td><span class="pill pill-green">+ Smart filters</span></td><td><span class="pill pill-green">+ GPU shader filters</span></td></tr>
+        <tr><td>AI background removal</td><td><span class="pill pill-green">Server-side (REMBG)</span></td><td><span class="pill pill-green">Client-side WASM</span></td><td><span class="pill pill-green">✓</span></td></tr>
+        <tr><td>AI generative fill</td><td><span class="pill pill-amber">—</span></td><td><span class="pill pill-green">API integration</span></td><td><span class="pill pill-green">Local model</span></td></tr>
+        <tr><td>PSD import/export</td><td><span class="pill pill-green">Basic layer support</span></td><td><span class="pill pill-green">Full fidelity</span></td><td><span class="pill pill-green">✓</span></td></tr>
+        <tr><td>Export (PNG, JPG, WebP)</td><td><span class="pill pill-green">✓</span></td><td><span class="pill pill-green">+ SVG, PDF</span></td><td><span class="pill pill-green">+ AVIF, HEIF</span></td></tr>
+        <tr><td>Real-time collaboration</td><td><span class="pill pill-amber">—</span></td><td><span class="pill pill-green">CRDTs (Yjs)</span></td><td><span class="pill pill-green">+ Voice</span></td></tr>
+        <tr><td>Cloud save / projects</td><td><span class="pill pill-amber">Local only</span></td><td><span class="pill pill-green">S3 + versioning</span></td><td><span class="pill pill-green">✓</span></td></tr>
+        <tr><td>Plugin API</td><td><span class="pill pill-amber">—</span></td><td><span class="pill pill-amber">—</span></td><td><span class="pill pill-green">JS sandbox</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="stack" class="panel">
+    <div class="grid">
+      <div class="card"><h3>Canvas Engine</h3><p><strong>WebGL2 + WebAssembly</strong><br>GPU-accelerated compositing. Rust compiled to WASM for pixel ops. 60fps on 100MP images.</p></div>
+      <div class="card"><h3>Frontend</h3><p><strong>SvelteKit + TypeScript</strong><br>Fastest DOM diffing for real-time canvas. Smaller bundle than React for editor-class apps.</p></div>
+      <div class="card"><h3>Backend API</h3><p><strong>Rust (Axum)</strong><br>File upload, PSD parsing, project CRUD, auth. Memory-safe, zero-cost abstractions.</p></div>
+      <div class="card"><h3>AI Service</h3><p><strong>Python FastAPI + REMBG + ONNX</strong><br>Background removal, upscaling. Separate service, horizontally scalable.</p></div>
+      <div class="card"><h3>Database</h3><p><strong>PostgreSQL + S3/R2</strong><br>Project metadata in PG, large files (PSD, exports) in object storage with CDN.</p></div>
+      <div class="card"><h3>Auth</h3><p><strong>Supabase Auth</strong><br>Email, GitHub OAuth, magic link. JWT access tokens, 15-min expiry, refresh rotation.</p></div>
+      <div class="card"><h3>Collab (V1)</h3><p><strong>Yjs CRDTs + WebSocket</strong><br>Conflict-free replicated data types. Industry standard (Figma uses similar). Partykit for hosting.</p></div>
+      <div class="card"><h3>Observability</h3><p><strong>Sentry + Grafana + Loki</strong><br>Error tracking, perf tracing, structured logs. Open source stack.</p></div>
+    </div>
+  </div>
+
+  <div id="arch" class="panel">
+    <div class="arch-row">
+      <div class="arch-box"><div class="label">User Browser</div><div class="val">SvelteKit + WebGL2 Canvas</div></div>
+      <div class="arch-box" style="flex:0;display:flex;align-items:center;font-size:18px;color:var(--color-text-secondary)">→</div>
+      <div class="arch-box"><div class="label">CDN / Edge</div><div class="val">Cloudflare + Vercel Edge</div></div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-box"><div class="label">API Server (Rust/Axum)</div><div class="val">Auth · Projects · Files · Export</div></div>
+      <div class="arch-box"><div class="label">AI Service (Python)</div><div class="val">BG Removal · Upscale · Segment</div></div>
+      <div class="arch-box"><div class="label">Collab Server (V1)</div><div class="val">Yjs WebSocket · Partykit</div></div>
+    </div>
+    <div class="arch-row">
+      <div class="arch-box"><div class="label">PostgreSQL</div><div class="val">Users · Projects · History</div></div>
+      <div class="arch-box"><div class="label">Redis</div><div class="val">Sessions · Rate limits · CRDT state</div></div>
+      <div class="arch-box"><div class="label">Cloudflare R2 / S3</div><div class="val">PSD · Exports · Thumbnails</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--color-text-secondary);margin-top:8px">All services containerized (Docker). CI/CD via GitHub Actions → Fly.io (backend) + Vercel (frontend). Secrets in Fly.io env or Vault.</p>
+  </div>
+
+  <div id="timeline" class="panel">
+    <div class="timeline">
+      <div class="titem"><h4><span class="week-tag">Wk 1–2</span>Foundation</h4><p>Monorepo setup, CI/CD, Supabase auth, basic SvelteKit scaffold, WebGL2 canvas prototype rendering a flat image.</p></div>
+      <div class="titem"><h4><span class="week-tag">Wk 3–4</span>Core canvas</h4><p>Layer system, compositing pipeline, raster brush, undo/redo (command pattern), PNG/JPG import + export.</p></div>
+      <div class="titem"><h4><span class="week-tag">Wk 5–6</span>Tools + color</h4><p>Selection tools (rect, lasso), move/transform, crop, Levels + Hue/Sat adjustments, color picker, swatches.</p></div>
+      <div class="titem"><h4><span class="week-tag">Wk 7–8</span>PSD + AI</h4><p>PSD import/export (ag-psd library), Gaussian blur filter, AI background removal (server-side REMBG), text tool.</p></div>
+      <div class="titem"><h4><span class="week-tag">Wk 9–10</span>Polish + projects</h4><p>Cloud save (S3 + PG), project dashboard, thumbnails, keyboard shortcuts, accessibility audit, performance profiling.</p></div>
+      <div class="titem"><h4><span class="week-tag">Wk 11–12</span>Launch ready</h4><p>Security audit (OWASP), load testing (k6), docs, onboarding flow, open source repo prep, community launch.</p></div>
+    </div>
+    <div style="margin-top:1rem" class="card">
+      <h3 style="margin-bottom:8px;font-size:13px">Team (minimum viable)</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="pill pill-blue">1× Canvas/WASM engineer</span>
+        <span class="pill pill-blue">1× SvelteKit UI engineer</span>
+        <span class="pill pill-blue">1× Rust backend engineer</span>
+        <span class="pill pill-blue">0.5× Python AI engineer</span>
+        <span class="pill pill-blue">0.5× DevOps/infra</span>
+        <span class="pill pill-blue">0.5× Designer/UX</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="risks" class="panel">
+    <div class="risk-row"><div class="risk-dot dot-red"></div><div><strong style="font-size:13px">Canvas performance</strong><p style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">WebGL2 on large images (100MP+) is hard. Mitigation: tile-based rendering, GPU memory budgets, WASM pixel ops, progressive render.</p></div></div>
+    <div class="risk-row"><div class="risk-dot dot-red"></div><div><strong style="font-size:13px">PSD fidelity</strong><p style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">Adobe's PSD spec has undocumented features. Use ag-psd + fallback to rasterizing unsupported layer types. Be transparent with users.</p></div></div>
+    <div class="risk-row"><div class="risk-dot dot-amber"></div><div><strong style="font-size:13px">AI service cost at scale</strong><p style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">GPU inference is expensive. Mitigation: client-side WASM model for background removal in V1, rate-limit AI calls for free tier.</p></div></div>
+    <div class="risk-row"><div class="risk-dot dot-amber"></div><div><strong style="font-size:13px">Community trust / adoption</strong><p style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">Designers are skeptical of new tools. Mitigation: open source from day 1, public roadmap, Figma/GIMP import, strong docs.</p></div></div>
+    <div class="risk-row"><div class="risk-dot dot-amber"></div><div><strong style="font-size:13px">Undo/redo complexity</strong><p style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">Photoshop-class undo history with large raster data is memory-intensive. Use diff-based command pattern + step snapshots.</p></div></div>
+    <div class="risk-row"><div class="risk-dot dot-green"></div><div><strong style="font-size:13px">Licensing (AGPL/MIT)</strong><p style="font-size:12px;color:var(--color-text-secondary);margin-top:3px">Choose MIT for maximum adoption. AGPL forces SaaS forks to contribute back but deters enterprise. Recommendation: MIT core + AGPLv3 cloud sync.</p></div></div>
+  </div>
+</div>
+<script>
+function show(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>

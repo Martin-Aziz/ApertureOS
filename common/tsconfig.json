@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "noUncheckedIndexedAccess": true,
+    "ignoreDeprecations": "5.0"
+  },
+  "include": ["types/**/*.ts", "constants/**/*.ts", "schemas/**/*.ts"]
+}

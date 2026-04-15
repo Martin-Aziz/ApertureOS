@@ -1,0 +1,5 @@
+export const MAX_PROJECT_NAME_LENGTH = 80;
+export const MIN_PROJECT_NAME_LENGTH = 3;
+export const MAX_PROJECT_DESCRIPTION_LENGTH = 4000;
+export const ACCESS_TOKEN_TTL_SECONDS = 900;
+export const REFRESH_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 7;
