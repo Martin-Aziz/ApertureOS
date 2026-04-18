@@ -1,5 +1,7 @@
 use axum::body::Body;
 use axum::http::{Method, Request, StatusCode};
+use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
+use base64::Engine as _;
 use http_body_util::BodyExt;
 use pixelforge_backend::config::AppConfig;
 use pixelforge_backend::{build_app, AppState};
@@ -21,6 +23,7 @@ fn build_test_config() -> AppConfig {
         ai_shared_secret: "test-shared-secret-for-ai-service".to_owned(),
         ai_service_base_url: "http://127.0.0.1:18001".to_owned(),
         ai_request_timeout_seconds: 1,
+        ai_max_image_bytes: 16,
     }
 }
 
@@ -245,4 +248,58 @@ async fn local_ai_remove_background_should_return_service_unavailable_when_offli
     assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
     let body = parse_json(response).await;
     assert_eq!(body["error"]["code"], "service_unavailable");
+}
+
+#[tokio::test]
+async fn local_ai_remove_background_should_reject_unsupported_output_format() {
+    let app = build_app(AppState::new(build_test_config()));
+
+    let request = Request::builder()
+        .method(Method::POST)
+        .uri("/api/v1/ai/remove-background")
+        .header("content-type", "application/json")
+        .body(Body::from(
+            json!({
+                "image_base64": "aW5wdXQ=",
+                "output_format": "jpeg"
+            })
+            .to_string(),
+        ))
+        .expect("ai remove-background request should build");
+
+    let response = app
+        .oneshot(request)
+        .await
+        .expect("ai remove-background request should succeed");
+
+    assert_eq!(response.status(), StatusCode::BAD_REQUEST);
+    let body = parse_json(response).await;
+    assert_eq!(body["error"]["code"], "bad_request");
+}
+
+#[tokio::test]
+async fn local_ai_remove_background_should_reject_payload_over_limit() {
+    let app = build_app(AppState::new(build_test_config()));
+    let oversized_payload = BASE64_STANDARD.encode(vec![0_u8; 32]);
+
+    let request = Request::builder()
+        .method(Method::POST)
+        .uri("/api/v1/ai/remove-background")
+        .header("content-type", "application/json")
+        .body(Body::from(
+            json!({
+                "image_base64": oversized_payload
+            })
+            .to_string(),
+        ))
+        .expect("ai remove-background request should build");
+
+    let response = app
+        .oneshot(request)
+        .await
+        .expect("ai remove-background request should succeed");
+
+    assert_eq!(response.status(), StatusCode::PAYLOAD_TOO_LARGE);
+    let body = parse_json(response).await;
+    assert_eq!(body["error"]["code"], "payload_too_large");
 }

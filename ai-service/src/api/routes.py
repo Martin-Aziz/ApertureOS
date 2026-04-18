@@ -10,6 +10,7 @@ from core.background_removal import (
     BackgroundRemovalError,
     BackgroundRemovalService,
 )
+from core.config import Settings, get_settings
 from middleware.security import enforce_rate_limit, require_service_secret
 from schemas.background import (
     RemoveBackgroundRequest,
@@ -69,6 +70,7 @@ async def metrics() -> str:
 )
 async def remove_background(
     payload: RemoveBackgroundRequest,
+    settings: Settings = Depends(get_settings),
 ) -> RemoveBackgroundResponse:
     started_at = perf_counter()
 
@@ -79,6 +81,15 @@ async def remove_background(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="image_base64 must be a valid base64 payload",
         ) from error
+
+    if len(image_bytes) > settings.ai_max_image_bytes:
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=(
+                "Decoded image exceeds maximum size of "
+                f"{settings.ai_max_image_bytes} bytes"
+            ),
+        )
 
     try:
         output_image = await background_service.remove_background(image_bytes)

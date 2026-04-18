@@ -93,6 +93,10 @@ Prometheus text exposition for AI service metadata and model readiness.
 ### POST /v1/remove-background
 Removes background from base64 encoded image bytes.
 
+Validation:
+- `output_format` must be `png`.
+- Decoded payload size must be less than or equal to `AI_MAX_IMAGE_BYTES` (default `8_000_000`).
+
 Headers:
 - `x-ai-service-secret`: shared secret
 
@@ -110,5 +114,15 @@ Response `200`:
   "image_base64": "<base64-processed-image>",
   "provider": "rembg",
   "processing_ms": 42
+}
+```
+
+Response `413`:
+```json
+{
+  "error": {
+    "code": "payload_too_large",
+    "message": "decoded image exceeds the configured limit of 8000000 bytes"
+  }
 }
 ```

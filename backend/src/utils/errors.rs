@@ -10,6 +10,8 @@ pub enum AppError {
     #[error("{0}")]
     BadRequest(String),
     #[error("{0}")]
+    PayloadTooLarge(String),
+    #[error("{0}")]
     Unauthorized(String),
     #[error("{0}")]
     Forbidden(String),
@@ -38,6 +40,7 @@ impl AppError {
     fn status_code(&self) -> StatusCode {
         match self {
             Self::BadRequest(_) => StatusCode::BAD_REQUEST,
+            Self::PayloadTooLarge(_) => StatusCode::PAYLOAD_TOO_LARGE,
             Self::Unauthorized(_) => StatusCode::UNAUTHORIZED,
             Self::Forbidden(_) => StatusCode::FORBIDDEN,
             Self::NotFound(_) => StatusCode::NOT_FOUND,
@@ -49,6 +52,7 @@ impl AppError {
     fn code(&self) -> &'static str {
         match self {
             Self::BadRequest(_) => "bad_request",
+            Self::PayloadTooLarge(_) => "payload_too_large",
             Self::Unauthorized(_) => "unauthorized",
             Self::Forbidden(_) => "forbidden",
             Self::NotFound(_) => "not_found",

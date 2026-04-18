@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use base64::Engine as _;
-use reqwest::Client;
+use reqwest::{Client, StatusCode};
 use serde::{Deserialize, Serialize};
 
 use crate::config::AppConfig;
@@ -82,7 +82,11 @@ impl AiService {
                 .and_then(|error| error.detail)
                 .unwrap_or_else(|| format!("AI service returned status {status}"));
 
-            return Err(AppError::ServiceUnavailable(detail));
+            return Err(match status {
+                StatusCode::BAD_REQUEST => AppError::BadRequest(detail),
+                StatusCode::PAYLOAD_TOO_LARGE => AppError::PayloadTooLarge(detail),
+                _ => AppError::ServiceUnavailable(detail),
+            });
         }
 
         let parsed = response

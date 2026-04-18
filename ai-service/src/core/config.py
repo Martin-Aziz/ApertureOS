@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -9,7 +10,8 @@ class Settings(BaseSettings):
     ai_shared_secret: str = (
         "development-service-secret-change-before-production"
     )
-    ai_max_requests_per_minute: int = 100
+    ai_max_requests_per_minute: int = Field(default=100, ge=1)
+    ai_max_image_bytes: int = Field(default=8_000_000, ge=1)
 
     model_config = SettingsConfigDict(
         env_file=".env",
