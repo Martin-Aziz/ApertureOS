@@ -9,14 +9,17 @@
     "preview": "vite preview --host 0.0.0.0 --port 4173",
     "typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "lint": "pnpm run typecheck",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@sveltejs/adapter-auto": "^3.3.1",
+    "@sveltejs/adapter-static": "^3.0.8",
     "@sveltejs/kit": "^2.16.0",
     "svelte": "^5.28.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.2",
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
     "@types/node": "^22.9.0",
     "jsdom": "^25.0.1",

@@ -42,6 +42,12 @@ export interface AuditLogEntry {
   created_at: string;
 }
 
+export interface RemoveBackgroundResponse {
+  image_base64: string;
+  provider: string;
+  processing_ms: number;
+}
+
 export interface ApiErrorEnvelope {
   error: {
     code: string;

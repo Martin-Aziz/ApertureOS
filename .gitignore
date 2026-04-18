@@ -9,11 +9,13 @@ frontend/.svelte-kit/
 frontend/build/
 frontend/dist/
 frontend/coverage/
+frontend/test-results/
 common/dist/
 
 # Rust / backend
 backend/target/
 wasm/target/
+desktop/src-tauri/target/
 
 # Python / AI service
 .venv/

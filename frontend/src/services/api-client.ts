@@ -2,7 +2,8 @@ import type {
   AuditLogEntry,
   CreateProjectPayload,
   LoginResponse,
-  Project
+  Project,
+  RemoveBackgroundResponse
 } from '../utils/contracts';
 
 export class ApiClientError extends Error {
@@ -110,5 +111,12 @@ export const apiClient = {
 
   listAuditLogs(accessToken: string): Promise<AuditLogEntry[]> {
     return requestJson<AuditLogEntry[]>('/api/v1/admin/audit-logs', { method: 'GET' }, accessToken);
+  },
+
+  removeBackground(imageBase64: string): Promise<RemoveBackgroundResponse> {
+    return requestJson<RemoveBackgroundResponse>('/api/v1/ai/remove-background', {
+      method: 'POST',
+      body: JSON.stringify({ image_base64: imageBase64 })
+    });
   }
 };

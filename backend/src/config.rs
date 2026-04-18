@@ -16,6 +16,8 @@ pub struct AppConfig {
     pub demo_admin_email: String,
     pub demo_admin_password: String,
     pub ai_shared_secret: String,
+    pub ai_service_base_url: String,
+    pub ai_request_timeout_seconds: i64,
 }
 
 #[derive(Debug, Error)]
@@ -66,6 +68,8 @@ impl AppConfig {
                 "AI_SHARED_SECRET",
                 "development-service-secret-change-before-production",
             ),
+            ai_service_base_url: read_env("AI_SERVICE_BASE_URL", "http://127.0.0.1:8001"),
+            ai_request_timeout_seconds: read_env_i64("AI_REQUEST_TIMEOUT_SECONDS", 20)?,
         })
     }
 }

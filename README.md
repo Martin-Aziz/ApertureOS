@@ -52,6 +52,19 @@ cargo run --manifest-path backend/Cargo.toml
 pnpm --filter pixelforge-frontend dev
 ```
 
+### Run Desktop App (Tauri)
+```bash
+# Start desktop app in dev mode (uses local frontend dev server)
+pnpm run dev:desktop
+
+# Build installable desktop artifacts
+pnpm run build:desktop
+```
+
+Desktop build artifacts on macOS:
+- `desktop/src-tauri/target/release/bundle/macos/PixelForge Desktop.app`
+- `desktop/src-tauri/target/release/bundle/dmg/PixelForge Desktop_0.1.0_aarch64.dmg`
+
 ### Run With Docker Compose
 ```bash
 ./scripts/dev-up.sh
@@ -70,6 +83,9 @@ cargo test --manifest-path wasm/Cargo.toml
 
 # Frontend
 pnpm --filter pixelforge-frontend test
+
+# Browser E2E
+pnpm --filter pixelforge-frontend test:e2e
 ```
 
 ## Implemented Features (Current Slice)
@@ -83,9 +99,15 @@ pnpm --filter pixelforge-frontend test
 - Docker Compose stack with PostgreSQL, Redis, and reverse proxy.
 - CI pipeline for Node, Rust, and Python validation.
 
+## Scope Note
+PixelForge is currently an MVP foundation and does not yet provide full Photoshop-equivalent tooling.
+The validated browser and desktop functionality currently covers authentication and project lifecycle flows,
+plus the backend/AI/WASM foundations listed above.
+
 ## Documentation Index
 - Decisions and assumptions: `DECISIONS.md`
 - API contracts: `API.md`
+- Photoshop parity matrix: `docs/PHOTOSHOP_PARITY_MATRIX.md`
 - Prompt strategy log: `PROMPTS.md`
 - Technical debt backlog: `TECHNICAL_DEBT.md`
 - ADRs: `docs/adr/`

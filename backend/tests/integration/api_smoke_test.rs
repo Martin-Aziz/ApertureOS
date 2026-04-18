@@ -19,6 +19,8 @@ fn build_test_config() -> AppConfig {
         demo_admin_email: "admin@pixelforge.local".to_owned(),
         demo_admin_password: "ChangeMe123!".to_owned(),
         ai_shared_secret: "test-shared-secret-for-ai-service".to_owned(),
+        ai_service_base_url: "http://127.0.0.1:18001".to_owned(),
+        ai_request_timeout_seconds: 1,
     }
 }
 
@@ -83,6 +85,34 @@ async fn metrics_should_return_prometheus_payload() {
     let payload = parse_text(response).await;
     assert!(payload.contains("pixelforge_backend_info"));
     assert!(payload.contains("pixelforge_backend_dependency_configured"));
+}
+
+#[tokio::test]
+async fn cors_should_allow_loopback_frontend_origin() {
+    let app = build_app(AppState::new(build_test_config()));
+
+    let request = Request::builder()
+        .method(Method::OPTIONS)
+        .uri("/api/v1/ai/remove-background")
+        .header("origin", "http://127.0.0.1:5173")
+        .header("access-control-request-method", "POST")
+        .header("access-control-request-headers", "content-type")
+        .body(Body::empty())
+        .expect("cors preflight request should build");
+
+    let response = app
+        .oneshot(request)
+        .await
+        .expect("cors preflight request should succeed");
+
+    assert!(response.status().is_success());
+    let allow_origin = response
+        .headers()
+        .get("access-control-allow-origin")
+        .and_then(|value| value.to_str().ok())
+        .expect("allow origin should be present");
+
+    assert_eq!(allow_origin, "http://127.0.0.1:5173");
 }
 
 #[tokio::test]
@@ -189,4 +219,30 @@ async fn login_then_project_flow_should_work() {
     assert_eq!(list_after_delete.status(), StatusCode::OK);
     let after_delete_body = parse_json(list_after_delete).await;
     assert_eq!(after_delete_body.as_array().expect("array expected").len(), 0);
+}
+
+#[tokio::test]
+async fn local_ai_remove_background_should_return_service_unavailable_when_offline() {
+    let app = build_app(AppState::new(build_test_config()));
+
+    let request = Request::builder()
+        .method(Method::POST)
+        .uri("/api/v1/ai/remove-background")
+        .header("content-type", "application/json")
+        .body(Body::from(
+            json!({
+                "image_base64": "aW5wdXQ="
+            })
+            .to_string(),
+        ))
+        .expect("ai remove-background request should build");
+
+    let response = app
+        .oneshot(request)
+        .await
+        .expect("ai remove-background request should succeed");
+
+    assert_eq!(response.status(), StatusCode::SERVICE_UNAVAILABLE);
+    let body = parse_json(response).await;
+    assert_eq!(body["error"]["code"], "service_unavailable");
 }
